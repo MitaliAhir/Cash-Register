@@ -12,13 +12,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private  TextView selectedProductTextView, quantityTextView, totalTextView;
     private Button buyButton;
     private ListView productListView;
     private Product selectedProduct;
-
+    private ArrayList<Product> productList = new ArrayList<>();
 
 
     @Override
@@ -38,7 +40,28 @@ public class MainActivity extends AppCompatActivity {
         totalTextView = findViewById(R.id.total);
         buyButton = findViewById(R.id.btnBuy);
         productListView = findViewById(R.id.listViewProducts);
+        // Add products to the product list
+        productList.add(new Product("Product A", 10, 42.99));
+        productList.add(new Product("Product B", 27, 69.87));
+        productList.add(new Product("Product C", 38, 75.65));
+        productList.add(new Product("Product D", 40, 97.99));
+        productList.add(new Product("Product E", 56, 35.90));
 
+        // Use the custom ProductAdapter to bind product data to the ListView
+        ProductAdapter adapter = new ProductAdapter(this, productList);
+        productListView.setAdapter(adapter);
+
+        // Set an item click listener for selecting a product
+        productListView.setOnItemClickListener((parentView, selectedItemView, position, id) -> {
+                    // Get the selected product
+                    selectedProduct = productList.get(position);
+            // Update the UI with the selected product's details
+            selectedProductTextView.setText("Selected Product: " + selectedProduct.getName());
+            quantityTextView.setText("Quantity: " + selectedProduct.getQuantity());
+
+            // Update the total
+            updateTotal();
+        });
         setUpButtonListeners(R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9);
         findViewById(R.id.btnC).setOnClickListener(v -> clear());
     }
