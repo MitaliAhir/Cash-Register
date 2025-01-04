@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_columnSpan="4"
-            android:text="Product Type"
+            android:hint="Product Type"
             android:textSize="18sp"
             app:layout_gravity="center_horizontal"
             app:layout_row="0" />
@@ -32,9 +32,9 @@
             android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_columnSpan="4"
-            android:text="Quantity: 1"
+            android:hint="Quantity: 0"
             android:textSize="18sp"
+            app:layout_columnSpan="4"
             app:layout_gravity="end"
             app:layout_row="1" />
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_columnSpan="4"
-            android:text="Total: $0.00"
+            android:hint="Total: $0.00"
             android:textSize="18sp"
             app:layout_gravity="end"
             app:layout_row="2" />

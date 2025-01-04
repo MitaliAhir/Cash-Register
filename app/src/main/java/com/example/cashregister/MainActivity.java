@@ -1,10 +1,10 @@
 package com.example.cashregister;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +16,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private  TextView selectedProductTextView, quantityTextView, totalTextView;
+    private TextView selectedProductTextView, quantityTextView, totalTextView;
     private Button buyButton;
     private ListView productListView;
-    private Product selectedProduct;
-    private ArrayList<Product> productList = new ArrayList<>();
+    private String selectedProductName = "";
+    private int desiredQuantity = 0;
+    private  ArrayList<Product> productList = new ArrayList<>();
 
 
     @Override
@@ -34,18 +35,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //Initialize UI components
+        //UI components initialization
         selectedProductTextView = findViewById(R.id.product_name);
         quantityTextView = findViewById(R.id.quantity);
         totalTextView = findViewById(R.id.total);
         buyButton = findViewById(R.id.btnBuy);
         productListView = findViewById(R.id.listViewProducts);
+
         // Add products to the product list
-        productList.add(new Product("Product A", 10, 42.99));
-        productList.add(new Product("Product B", 27, 69.87));
-        productList.add(new Product("Product C", 38, 75.65));
-        productList.add(new Product("Product D", 40, 97.99));
-        productList.add(new Product("Product E", 56, 35.90));
+        productList.add(new Product("Product A", 10, 200));
+        productList.add(new Product("Product B", 27, 100));
+        productList.add(new Product("Product C", 38, 300));
+        productList.add(new Product("Product D", 40, 400));
+        productList.add(new Product("Product E", 56, 500));
 
         // Use the custom ProductAdapter to bind product data to the ListView
         ProductAdapter adapter = new ProductAdapter(this, productList);
@@ -53,17 +55,32 @@ public class MainActivity extends AppCompatActivity {
 
         // Set an item click listener for selecting a product
         productListView.setOnItemClickListener((parentView, selectedItemView, position, id) -> {
-                    // Get the selected product
-                    selectedProduct = productList.get(position);
+            // Get the selected product
+            Product selectedProduct = productList.get(position);
+            selectedProductName = selectedProduct.getName();
             // Update the UI with the selected product's details
-            selectedProductTextView.setText("Selected Product: " + selectedProduct.getName());
-            quantityTextView.setText("Quantity: " + selectedProduct.getQuantity());
-
-            // Update the total
-            updateTotal();
+            selectedProductTextView.setText("Selected Product: " + selectedProductName);
         });
         setUpButtonListeners(R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9);
         findViewById(R.id.btnC).setOnClickListener(v -> clear());
+
+        // Set on click listener for buy button
+        buyButton.setOnClickListener(v -> {
+            if(desiredQuantity > 0 && !selectedProductName.isEmpty()){
+                Product selectedProduct = getProductByName(selectedProductName);
+                    if (selectedProduct != null && desiredQuantity < selectedProduct.quantity) {
+                        // Deduct quantity from stock
+                        selectedProduct.setQuantity(selectedProduct.getQuantity() - desiredQuantity);
+                        updateTotal(selectedProduct);
+                        clear();
+                        Toast.makeText(this, "Thank you for your purchase.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Sorry not enough quantity in stock.", Toast.LENGTH_SHORT).show();
+                    }
+            }else {
+                Toast.makeText(this, "Please select a quantity.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Set up same listener for all number buttons
@@ -71,29 +88,42 @@ public class MainActivity extends AppCompatActivity {
         for (int id : buttonIds) {
             findViewById(id).setOnClickListener(v -> {
                 Button button = (Button) v;
-                int quantity = Integer.parseInt(button.getText().toString());
+                Product selectedProduct = getProductByName(selectedProductName);
                 // Update the quantity for the selected product
-                if (selectedProduct != null) {
-                    selectedProduct.setQuantity(quantity);
-                    quantityTextView.setText("Quantity: " + quantity);
-
-                    // Update the total price
-                    updateTotal();
+                if (!selectedProductName.isEmpty() && selectedProduct != null) {
+                    //String text = quantityTextView.getDisplay().toString();
+                    desiredQuantity = desiredQuantity + Integer.parseInt(button.getText().toString());
+                    quantityTextView.setText(String.valueOf(desiredQuantity));
+                    updateTotal(selectedProduct);
+                }else {
+                    Toast.makeText(this, "Please select the product you want to purchase.", Toast.LENGTH_SHORT).show();
                 }
+
             });
         }
     }
 
-    void updateTotal(){
-        if (selectedProduct != null) {
-            double totalPrice = selectedProduct.getTotalPrice();
-            totalTextView.setText("Total: " + totalPrice);
+    // Get product by name
+    private Product getProductByName(String name) {
+        for (Product product : productList) {
+            if (product.getName().equals(name)) {
+                return product;
+            }
         }
+        return null;
+    }
+
+    void updateTotal(Product product){
+            double totalPrice = product.getTotalPrice(desiredQuantity);
+            totalTextView.setText("Total: " + String.format("%.2f", totalPrice));
     }
 
     private void clear() {
-        quantityTextView.setText("Quantity: 1");
+        selectedProductTextView.setText("Product Type");
+        quantityTextView.setText("0");
         totalTextView.setText("Total: $0.00");
+        desiredQuantity = 0;
+        selectedProductName = "";
     }
 }
 

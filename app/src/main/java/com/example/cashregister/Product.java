@@ -36,9 +36,10 @@ public class Product {
         this.price = price;
     }
 
+
     // Method to calculate total price
-    public double getTotalPrice() {
-        return quantity * price;
+    public double getTotalPrice(int desiredQuantity) {
+        return desiredQuantity * price;
     }
 
     @Override

@@ -20,8 +20,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
     // This method is called for every item in the ListView
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the recycled view (convertView) is null
