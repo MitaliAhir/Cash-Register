@@ -1,5 +1,6 @@
 package com.example.cashregister;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private TextView selectedProductTextView, quantityTextView, totalTextView;
-    private Button buyButton;
+    private Button buyButton, managerButton;
     private ListView productListView;
     private String selectedProductName = "";
     private int desiredQuantity = 0;
@@ -40,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView = findViewById(R.id.quantity);
         totalTextView = findViewById(R.id.total);
         buyButton = findViewById(R.id.btnBuy);
+        managerButton = findViewById(R.id.btnManager);
         productListView = findViewById(R.id.listViewProducts);
 
         // Add products to the product list
-        productList.add(new Product("Product A", 10, 200));
+        productList.add(new Product("Product A", 10, 200.67));
         productList.add(new Product("Product B", 27, 100));
-        productList.add(new Product("Product C", 38, 300));
-        productList.add(new Product("Product D", 40, 400));
-        productList.add(new Product("Product E", 56, 500));
+        productList.add(new Product("Product C", 38, 57.99));
+        productList.add(new Product("Product D", 40, 42.88));
+        productList.add(new Product("Product E", 56, 49.99));
 
         // Use the custom ProductAdapter to bind product data to the ListView
         ProductAdapter adapter = new ProductAdapter(this, productList);
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         buyButton.setOnClickListener(v -> {
             if(desiredQuantity > 0 && !selectedProductName.isEmpty()){
                 Product selectedProduct = getProductByName(selectedProductName);
-                    if (selectedProduct != null && desiredQuantity <= selectedProduct.quantity) {
+                    if (selectedProduct != null && desiredQuantity <= selectedProduct.getQuantity()) {
                         // Deduct quantity from stock
                         selectedProduct.setQuantity(selectedProduct.getQuantity() - desiredQuantity);
                         updateTotal(selectedProduct);
@@ -80,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 Toast.makeText(this, "Please select a quantity.", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Navigate to Manager panel
+        managerButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -132,7 +140,3 @@ public class MainActivity extends AppCompatActivity {
         selectedProductName = "";
     }
 }
-
-//Edge Cases: You may want to add input validation to ensure that the quantity cannot be zero or negative.
-//Quantity Increment/Decrement: Instead of typing in a quantity, you might allow the user to increment/decrement the quantity using + and - buttons.
-//Multiple Product Selections: If you want to allow the user to add multiple products to the cart, you'll need to store selected products and quantities in a list and update the total accordingly.

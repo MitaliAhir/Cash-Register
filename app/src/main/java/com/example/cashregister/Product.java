@@ -2,9 +2,9 @@ package com.example.cashregister;
 
 public class Product {
 
-    String name;
-    int quantity;
-    double price;
+    private String name;
+    private int quantity;
+    private double price;
 
     public Product(String name, int quantity, double price) {
         this.name = name;
