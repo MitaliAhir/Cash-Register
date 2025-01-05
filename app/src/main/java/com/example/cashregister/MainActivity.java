@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         buyButton.setOnClickListener(v -> {
             if(desiredQuantity > 0 && !selectedProductName.isEmpty()){
                 Product selectedProduct = getProductByName(selectedProductName);
-                    if (selectedProduct != null && desiredQuantity < selectedProduct.quantity) {
+                    if (selectedProduct != null && desiredQuantity <= selectedProduct.quantity) {
                         // Deduct quantity from stock
                         selectedProduct.setQuantity(selectedProduct.getQuantity() - desiredQuantity);
                         updateTotal(selectedProduct);
@@ -91,9 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 Product selectedProduct = getProductByName(selectedProductName);
                 // Update the quantity for the selected product
                 if (!selectedProductName.isEmpty() && selectedProduct != null) {
-                    //String text = quantityTextView.getDisplay().toString();
-                    desiredQuantity = desiredQuantity + Integer.parseInt(button.getText().toString());
-                    quantityTextView.setText(String.valueOf(desiredQuantity));
+                    String btnText = quantityTextView.getDisplay().toString();
+                    //desiredQuantity = desiredQuantity + Integer.parseInt(button.getText().toString());
+                    if(!btnText.isEmpty()){
+                        quantityTextView.append(button.getText().toString());
+                        desiredQuantity = Integer.parseInt(quantityTextView.getText().toString());
+                    }else{
+                        quantityTextView.setText(button.getText().toString());
+                        desiredQuantity = Integer.parseInt(quantityTextView.getText().toString());
+                    }
                     updateTotal(selectedProduct);
                 }else {
                     Toast.makeText(this, "Please select the product you want to purchase.", Toast.LENGTH_SHORT).show();
@@ -119,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clear() {
-        selectedProductTextView.setText("Product Type");
-        quantityTextView.setText("0");
-        totalTextView.setText("Total: $0.00");
+        selectedProductTextView.setText("");
+        quantityTextView.setText("");
+        totalTextView.setText("");
         desiredQuantity = 0;
         selectedProductName = "";
     }
