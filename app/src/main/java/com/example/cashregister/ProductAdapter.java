@@ -12,11 +12,13 @@ import java.util.List;
 public class ProductAdapter extends ArrayAdapter<Product> {
     private Context context;
     private List<Product> productList;
+    private OnProductClickListener listener;
 
-     public ProductAdapter(Context context, List<Product> productList) {
+     public ProductAdapter(Context context, List<Product> productList, OnProductClickListener listener) {
         super(context, 0, productList);  // Passing 0 as resource to use the custom layout
         this.context = context;
         this.productList = productList;
+         this.listener = listener;
     }
 
     // This method is called for every item in the ListView
@@ -39,8 +41,21 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         quantityTextView.setText("Qty: " + currentProduct.getQuantity());
         priceTextView.setText("$" + currentProduct.getPrice());
 
+        // Set up the click listener to notify when a product is selected
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the listener when an item is clicked
+                listener.onProductClick(position);
+            }
+        });
+
         // Return the modified view
         return convertView;
 
+    }
+    // Interface to handle product click events
+    public interface OnProductClickListener {
+        void onProductClick(int position);
     }
 }

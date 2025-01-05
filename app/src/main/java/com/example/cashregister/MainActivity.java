@@ -1,6 +1,7 @@
 package com.example.cashregister;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,6 +14,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,15 +49,23 @@ public class MainActivity extends AppCompatActivity {
         managerButton = findViewById(R.id.btnManager);
         productListView = findViewById(R.id.listViewProducts);
 
+       loadProductListFromPreferences();
+
+
         // Add products to the product list
-        productList.add(new Product("Product A", 10, 200.67));
-        productList.add(new Product("Product B", 27, 100));
-        productList.add(new Product("Product C", 38, 57.99));
-        productList.add(new Product("Product D", 40, 42.88));
-        productList.add(new Product("Product E", 56, 49.99));
+//        productList.add(new Product("Product A", 10, 200.67));
+//        productList.add(new Product("Product B", 27, 100));
+//        productList.add(new Product("Product C", 38, 57.99));
+//        productList.add(new Product("Product D", 40, 42.88));
+//        productList.add(new Product("Product E", 56, 49.99));
 
         // Use the custom ProductAdapter to bind product data to the ListView
-        ProductAdapter adapter = new ProductAdapter(this, productList);
+        ProductAdapter adapter = new ProductAdapter(this, productList, new ProductAdapter.OnProductClickListener() {
+            @Override
+            public void onProductClick(int position) {
+
+            }
+        });
         productListView.setAdapter(adapter);
 
         // Set an item click listener for selecting a product
@@ -139,4 +152,32 @@ public class MainActivity extends AppCompatActivity {
         desiredQuantity = 0;
         selectedProductName = "";
     }
+    // Load the product list from SharedPreferences
+    private void loadProductListFromPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("POSApp", MODE_PRIVATE);
+        String json = sharedPreferences.getString("productList", null);
+
+        if (json != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<Product>>(){}.getType();
+            productList = gson.fromJson(json, type);  // Deserialize the JSON back to a list
+        } else {
+            // Default products if no data is found in SharedPreferences
+            productList.add(new Product("Product A", 10, 200.67));
+            productList.add(new Product("Product B", 27, 100));
+            productList.add(new Product("Product C", 38, 57.99));
+            productList.add(new Product("Product D", 40, 42.88));
+            productList.add(new Product("Product E", 56, 49.99));
+        }
+        // Once the list is updated (or loaded from SharedPreferences), refresh the ListView
+        ProductAdapter adapter = new ProductAdapter(this, productList, new ProductAdapter.OnProductClickListener() {
+            @Override
+            public void onProductClick(int position) {
+                // Handle item click
+            }
+        });
+        productListView.setAdapter(adapter);  // Re-set the adapter to reflect the changes
+        adapter.notifyDataSetChanged();  // This will refresh the ListView with the updated list
+    }
+
 }

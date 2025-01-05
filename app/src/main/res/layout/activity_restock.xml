@@ -11,21 +11,23 @@
         android:id="@+id/editTextNewQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:hint="Enter New Quantity"
         android:inputType="number"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProducts"
+        app:layout_constraintBottom_toTopOf="@+id/productListView"
         app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="50dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextNewQuantity" />
 
     <Button
@@ -33,17 +35,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewProducts"
+        app:layout_constraintBottom_toTopOf="@+id/productListView"
         app:layout_constraintStart_toEndOf="@+id/btnOk"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="50dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextNewQuantity" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProducts"
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/productListView"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

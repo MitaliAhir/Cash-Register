@@ -1,6 +1,11 @@
 package com.example.cashregister;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Product implements Parcelable {
 
     private String name;
     private int quantity;
@@ -11,6 +16,24 @@ public class Product {
         this.quantity = quantity;
         this.price = price;
     }
+
+    protected Product(Parcel in) {
+        name = in.readString();
+        quantity = in.readInt();
+        price = in.readDouble();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -49,5 +72,17 @@ public class Product {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeInt(quantity);
+        parcel.writeDouble(price);
     }
 }
