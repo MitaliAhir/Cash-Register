@@ -32,7 +32,7 @@ public class SharedPrefsHelper {
             // Return a default list if no data is found in SharedPreferences
             ArrayList<Product> defaultList = new ArrayList<>();
             defaultList.add(new Product("Product A", 10, 200.67));
-            defaultList.add(new Product("Product B", 27, 100.0));
+            defaultList.add(new Product("Product B", 27, 95.99));
             defaultList.add(new Product("Product C", 38, 57.99));
             defaultList.add(new Product("Product D", 40, 42.88));
             defaultList.add(new Product("Product E", 56, 49.99));

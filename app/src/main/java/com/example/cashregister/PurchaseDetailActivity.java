@@ -41,8 +41,6 @@ public class PurchaseDetailActivity extends AppCompatActivity {
             purchaseDateTextView.setText("Date: " + purchaseHistory.getPurchaseDate().toString());
         }
 
-
-
         // Back button functionality
         backButton.setOnClickListener(v -> {
             super.onBackPressed();

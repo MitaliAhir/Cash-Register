@@ -50,21 +50,15 @@ public class MainActivity extends AppCompatActivity {
         productListView = findViewById(R.id.listViewProducts);
 
        loadProductListFromPreferences();
-
-
-        // Add products to the product list
-//        productList.add(new Product("Product A", 10, 200.67));
-//        productList.add(new Product("Product B", 27, 100));
-//        productList.add(new Product("Product C", 38, 57.99));
-//        productList.add(new Product("Product D", 40, 42.88));
-//        productList.add(new Product("Product E", 56, 49.99));
+       SharedPrefsHelper.loadProductList(this);
 
         // Use the custom ProductAdapter to bind product data to the ListView
-        ProductAdapter adapter = new ProductAdapter(this, productList, new ProductAdapter.OnProductClickListener() {
-            @Override
-            public void onProductClick(int position) {
-
-            }
+        ProductAdapter adapter = new ProductAdapter(this, productList, position -> {
+            // Get the selected product
+            Product selectedProduct = productList.get(position);
+            selectedProductName = selectedProduct.getName();
+            // Update the UI with the selected product's details
+            selectedProductTextView.setText("Selected Product: " + selectedProductName);
         });
         productListView.setAdapter(adapter);
 
@@ -164,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Default products if no data is found in SharedPreferences
             productList.add(new Product("Product A", 10, 200.67));
-            productList.add(new Product("Product B", 27, 100));
+            productList.add(new Product("Product B", 22, 95.99));
             productList.add(new Product("Product C", 38, 57.99));
             productList.add(new Product("Product D", 40, 42.88));
             productList.add(new Product("Product E", 56, 49.99));

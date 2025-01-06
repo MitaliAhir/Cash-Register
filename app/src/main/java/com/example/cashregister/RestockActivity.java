@@ -119,9 +119,6 @@ public class RestockActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("POSApp", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-
-
-
         // Store product list
         Gson gson = new Gson();
         String json = gson.toJson(productList); // Serialize the product list to JSON
