@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         productListView = findViewById(R.id.listViewProducts);
 
        loadProductListFromPreferences();
-       SharedPrefsHelper.loadProductList(this);
+        SharedPrefsHelper.loadProductList(this);
 
         // Use the custom ProductAdapter to bind product data to the ListView
         ProductAdapter adapter = new ProductAdapter(this, productList, position -> {
@@ -164,11 +164,8 @@ public class MainActivity extends AppCompatActivity {
             productList.add(new Product("Product E", 56, 49.99));
         }
         // Once the list is updated (or loaded from SharedPreferences), refresh the ListView
-        ProductAdapter adapter = new ProductAdapter(this, productList, new ProductAdapter.OnProductClickListener() {
-            @Override
-            public void onProductClick(int position) {
-                // Handle item click
-            }
+        ProductAdapter adapter = new ProductAdapter(this, productList, position -> {
+            // Handle item click
         });
         productListView.setAdapter(adapter);  // Re-set the adapter to reflect the changes
         adapter.notifyDataSetChanged();  // This will refresh the ListView with the updated list
