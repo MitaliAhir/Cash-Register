@@ -58,45 +58,24 @@ public class RestockActivity extends AppCompatActivity {
         productListView.setAdapter(productAdapter);
 
         // Handle OK button click
-//        btnOk.setOnClickListener(v -> {
-//            if (selectedProductIndex == -1 || editTextNewQuantity.getText().toString().isEmpty()) {
-//                Toast.makeText(RestockActivity.this, "Please select a product and enter a quantity", Toast.LENGTH_SHORT).show();
-//            } else {
-//                int newQuantity = Integer.parseInt(editTextNewQuantity.getText().toString());
-//                Product selectedProduct = productList.get(selectedProductIndex);
-//                selectedProduct.setQuantity(selectedProduct.getQuantity() + newQuantity);  // Update quantity
-//
-//                // Save the updated product list to SharedPreferences
-//                saveProductList();
-//                productAdapter.notifyDataSetChanged();  // Refresh the ListView
-//
-//                Toast.makeText(RestockActivity.this, "Product restocked successfully", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-        // Handle Cancel button click
-
         btnOk.setOnClickListener(v -> {
-            int selectedPosition = productListView.getCheckedItemPosition();
-            if (selectedPosition != ListView.INVALID_POSITION) {
-                Product selectedProduct = productList.get(selectedPosition);
-                String newQuantityStr = editTextNewQuantity.getText().toString();
+            String newQuantityStr = editTextNewQuantity.getText().toString();
+            if (selectedProductIndex != -1 && !newQuantityStr.isEmpty()) {
                 int newQuantity = Integer.parseInt(newQuantityStr);
-
                 if (newQuantity > 0) {
+                    Product selectedProduct = productList.get(selectedProductIndex);
                     selectedProduct.setQuantity(selectedProduct.getQuantity() + newQuantity);
-                    // Save the updated product list to SharedPreferences
                     SharedPrefsHelper.saveProductList(RestockActivity.this, productList);
-
-                    Toast.makeText(this, "Restocked successfully.", Toast.LENGTH_SHORT).show();
-                    finish(); // Go back to the main screen
+                    productAdapter.notifyDataSetChanged();  // Refresh the ListView
+                    Toast.makeText(RestockActivity.this, "Product restocked successfully", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Please enter a valid quantity.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestockActivity.this, "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Please select a product.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestockActivity.this, "Please select a product and enter a quantity", Toast.LENGTH_SHORT).show();
             }
         });
+
         btnCancel.setOnClickListener(v -> finish());
     }
     private void loadProductList() {

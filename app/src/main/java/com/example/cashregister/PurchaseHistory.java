@@ -1,8 +1,9 @@
 package com.example.cashregister;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PurchaseHistory {
+public class PurchaseHistory implements Serializable {
     private String productName;
     private int quantity;
     private double totalPrice;

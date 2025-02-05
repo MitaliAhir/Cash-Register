@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HistoryActivity extends AppCompatActivity {
     private RecyclerView historyRecyclerView;
@@ -32,26 +31,25 @@ public class HistoryActivity extends AppCompatActivity {
 
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
 
-        // Sample purchase history data
-        purchaseHistoryList = new ArrayList<>();
-        purchaseHistoryList.add(new PurchaseHistory("Product 1", 5, 50.0, new Date()));
-        purchaseHistoryList.add(new PurchaseHistory("Product 2", 2, 30.0, new Date()));
+        // Load purchase history from SharedPreferences
+        purchaseHistoryList = SharedPrefsHelper.loadPurchaseHistory(this);
 
         // Set up RecyclerView
         historyAdapter = new HistoryAdapter(this, purchaseHistoryList, purchaseHistory -> {
             // When an item is clicked, navigate to the PurchaseDetailActivity
             Intent intent = new Intent(HistoryActivity.this, PurchaseDetailActivity.class);
-            intent.putExtra("product_name", purchaseHistory.getProductName());
-            intent.putExtra("quantity", purchaseHistory.getQuantity());
-            intent.putExtra("total_price", purchaseHistory.getTotalPrice());
-            intent.putExtra("purchase_date", purchaseHistory.getPurchaseDate().toString());
+//            intent.putExtra("product_name", purchaseHistory.getProductName());
+//            intent.putExtra("quantity", purchaseHistory.getQuantity());
+//            intent.putExtra("total_price", purchaseHistory.getTotalPrice());
+//            intent.putExtra("purchase_date", purchaseHistory.getPurchaseDate().toString());
+            intent.putExtra("purchaseDetails", purchaseHistory);
             startActivity(intent);
         });
 
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setAdapter(historyAdapter);
-
     }
+
     // Method to update the list when returning from the Detail Page
     @Override
     protected void onResume() {

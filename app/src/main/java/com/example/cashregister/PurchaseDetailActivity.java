@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class PurchaseDetailActivity extends AppCompatActivity {
     private TextView productNameTextView, quantityTextView, totalPriceTextView, purchaseDateTextView;
     private Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +30,11 @@ public class PurchaseDetailActivity extends AppCompatActivity {
         quantityTextView = findViewById(R.id.purchasedProductQuantity);
         totalPriceTextView = findViewById(R.id.purchasedProductPrice);
         purchaseDateTextView = findViewById(R.id.purchaseDate);
+        backButton = findViewById(R.id.backButton);
 
         // Retrieve PurchaseHistory object from Intent
         PurchaseHistory purchaseHistory = (PurchaseHistory) getIntent().getSerializableExtra("purchaseDetails");
+
 
         // Display purchase details
         if (purchaseHistory != null) {
@@ -41,9 +44,6 @@ public class PurchaseDetailActivity extends AppCompatActivity {
             purchaseDateTextView.setText("Date: " + purchaseHistory.getPurchaseDate().toString());
         }
 
-        // Back button functionality
-        backButton.setOnClickListener(v -> {
-            super.onBackPressed();
-        });
+        backButton.setOnClickListener(v -> super.onBackPressed());
     }
 }
