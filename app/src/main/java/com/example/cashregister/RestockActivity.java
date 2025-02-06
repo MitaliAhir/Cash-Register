@@ -2,12 +2,14 @@ package com.example.cashregister;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class RestockActivity extends AppCompatActivity {
     private EditText editTextNewQuantity;
     private Button btnOk, btnCancel;
     private int selectedProductIndex = NO_PRODUCT_SELECTED;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,78 +31,105 @@ public class RestockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restock);
 
         setupUI();
-        loadProductList();
-        setupAdapter();
+        setupData();
         setupListeners();
     }
 
     private void setupUI() {
+        toolbar = findViewById(R.id.toolbar);
         productListView = findViewById(R.id.productListView);
         editTextNewQuantity = findViewById(R.id.editTextNewQuantity);
         btnOk = findViewById(R.id.btnOk);
         btnCancel = findViewById(R.id.btnCancel);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void loadProductList() {
-        // Load product list from SharedPreferences
+    private void setupData() {
         productList = SharedPrefsHelper.loadProductList(this);
-    }
-
-    private void setupAdapter() {
-        // Set up the adapter with a listener for item selection
         productAdapter = new ProductAdapter(this, productList, position -> {
-            // Mark the selected product index when clicked
             selectedProductIndex = position;
-            Toast.makeText(RestockActivity.this, "Selected: " + productList.get(position).getName(), Toast.LENGTH_SHORT).show();
+            showToast("Selected: " + productList.get(position).getName());
         });
-        // Set the adapter to the ListView
         productListView.setAdapter(productAdapter);
     }
 
     private void setupListeners() {
-        // Handle OK button click
         btnOk.setOnClickListener(v -> handleOkButtonClick());
-
         btnCancel.setOnClickListener(v -> finish());
     }
 
     private void handleOkButtonClick() {
-        String newQuantityStr = editTextNewQuantity.getText().toString();
-        if (!isValidInput(newQuantityStr)) {
+        String quantityString = editTextNewQuantity.getText().toString();
+        if (!isValidInput(quantityString)) {
             return;
         }
-        int newQuantity = Integer.parseInt(newQuantityStr);
-        updateProductQuantity(newQuantity);
-
+        int quantity = Integer.parseInt(quantityString);
+        updateProductQuantity(quantity);
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
-    private boolean isValidInput(String newQuantityStr) {
+    private boolean isValidInput(String quantityString) {
+        if (!isProductSelected()) return false;
+        if (!isQuantityEntered(quantityString)) return false;
+        if (!isQuantityPositive(quantityString)) return false;
+        return true;
+    }
+
+    private boolean isProductSelected() {
         if (selectedProductIndex == NO_PRODUCT_SELECTED) {
-            Toast.makeText(RestockActivity.this, "Please select a product to restock.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (newQuantityStr.isEmpty()) {
-            Toast.makeText(RestockActivity.this, "Please enter a quantity.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        try {
-            int newQuantity = Integer.parseInt(newQuantityStr);
-            if (newQuantity <= 0) {
-                Toast.makeText(RestockActivity.this, "Please enter a quantity greater than zero.", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            Toast.makeText(RestockActivity.this, "Please enter a valid number for the quantity.", Toast.LENGTH_SHORT).show();
+            showToast("Please select a product to restock.");
             return false;
         }
         return true;
     }
 
-    private void updateProductQuantity(int newQuantity) {
+    private boolean isQuantityEntered(String quantityString) {
+        if (quantityString.isEmpty()) {
+            showToast("Please enter a quantity.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isQuantityPositive(String quantityString) {
+        try {
+            int quantity = Integer.parseInt(quantityString);
+            if (quantity <= 0) {
+                showToast("Please enter a quantity greater than zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showToast("Please enter a valid number for the quantity.");
+            return false;
+        }
+        return true;
+    }
+
+    private void updateProductQuantity(int quantity) {
         Product selectedProduct = productList.get(selectedProductIndex);
-        selectedProduct.setQuantity(selectedProduct.getQuantity() + newQuantity);
+        selectedProduct.setQuantity(selectedProduct.getQuantity() + quantity);
         SharedPrefsHelper.saveProductList(RestockActivity.this, productList);
+        updateUI();
+    }
+
+    private void updateUI() {
         productAdapter.notifyDataSetChanged();
-        Toast.makeText(RestockActivity.this, "Product restocked successfully", Toast.LENGTH_SHORT).show();
+        showToast("Product restocked successfully");
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

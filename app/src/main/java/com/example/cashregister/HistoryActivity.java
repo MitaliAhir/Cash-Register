@@ -2,9 +2,11 @@ package com.example.cashregister;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +19,7 @@ public class HistoryActivity extends AppCompatActivity {
     private RecyclerView historyRecyclerView;
     private ArrayList<PurchaseHistory> purchaseHistoryList;
     private HistoryAdapter historyAdapter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
+        toolbar = findViewById(R.id.toolbar);
 
         // Load purchase history from SharedPreferences
         purchaseHistoryList = SharedPrefsHelper.loadPurchaseHistory(this);
@@ -38,24 +42,35 @@ public class HistoryActivity extends AppCompatActivity {
         historyAdapter = new HistoryAdapter(this, purchaseHistoryList, purchaseHistory -> {
             // When an item is clicked, navigate to the PurchaseDetailActivity
             Intent intent = new Intent(HistoryActivity.this, PurchaseDetailActivity.class);
-//            intent.putExtra("product_name", purchaseHistory.getProductName());
-//            intent.putExtra("quantity", purchaseHistory.getQuantity());
-//            intent.putExtra("total_price", purchaseHistory.getTotalPrice());
-//            intent.putExtra("purchase_date", purchaseHistory.getPurchaseDate().toString());
             intent.putExtra("purchaseDetails", purchaseHistory);
+            // Add the flag to remove HistoryActivity from the back stack
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         });
 
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setAdapter(historyAdapter);
+        setupToolbar();
     }
 
     // Method to update the list when returning from the Detail Page
     @Override
     protected void onResume() {
         super.onResume();
-        // You can update the list from a database, shared preferences, or any other persistent storage.
-        // If you made any changes to purchaseHistoryList, call notifyDataSetChanged on the adapter
         historyAdapter.notifyDataSetChanged();
+    }
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle the Up button (back navigation)
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
