@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.cashregister.Adapter.ProductAdapter;
+import com.example.cashregister.model.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +77,7 @@ public class RestockActivity extends AppCompatActivity {
     private boolean isValidInput(String quantityString) {
         if (!isProductSelected()) return false;
         if (!isQuantityEntered(quantityString)) return false;
-        if (!isQuantityPositive(quantityString)) return false;
-        return true;
+        return isQuantityPositive(quantityString);
     }
 
     private boolean isProductSelected() {

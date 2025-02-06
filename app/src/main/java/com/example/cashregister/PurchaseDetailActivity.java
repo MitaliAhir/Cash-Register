@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.cashregister.model.PurchaseHistory;
+
 public class PurchaseDetailActivity extends AppCompatActivity {
     private TextView productNameTextView, quantityTextView, totalPriceTextView, purchaseDateTextView;
     private Button backButton;

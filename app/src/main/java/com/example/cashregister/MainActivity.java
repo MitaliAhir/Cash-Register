@@ -1,6 +1,5 @@
 package com.example.cashregister;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,6 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.cashregister.Adapter.ProductAdapter;
+import com.example.cashregister.model.Product;
+import com.example.cashregister.model.PurchaseHistory;
 
 import java.util.ArrayList;
 import java.util.Date;

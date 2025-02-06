@@ -1,4 +1,4 @@
-package com.example.cashregister;
+package com.example.cashregister.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.cashregister.R;
+import com.example.cashregister.model.Product;
+
 import java.util.List;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
     private final OnProductClickListener listener;
-    private List<Product> productList; // Make this mutable
+    private final List<Product> productList; // Make this mutable
 
     public ProductAdapter(Context context, List<Product> productList, OnProductClickListener listener) {
         super(context, 0, productList);

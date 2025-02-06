@@ -1,4 +1,4 @@
-package com.example.cashregister;
+package com.example.cashregister.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

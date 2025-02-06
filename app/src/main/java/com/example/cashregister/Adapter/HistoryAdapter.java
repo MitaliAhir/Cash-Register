@@ -1,4 +1,4 @@
-package com.example.cashregister;
+package com.example.cashregister.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,12 +8,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cashregister.R;
+import com.example.cashregister.model.PurchaseHistory;
+
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
-    private Context context;
-    private List<PurchaseHistory> purchaseHistoryList;
-    private OnPurchaseClickListener listener;
+    private final Context context;
+    private final List<PurchaseHistory> purchaseHistoryList;
+    private final OnPurchaseClickListener listener;
 
     public interface OnPurchaseClickListener {
         void onPurchaseClick(PurchaseHistory purchaseHistory);

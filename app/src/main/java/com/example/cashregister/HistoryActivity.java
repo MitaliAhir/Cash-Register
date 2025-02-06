@@ -13,6 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cashregister.Adapter.HistoryAdapter;
+import com.example.cashregister.model.PurchaseHistory;
+
 import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
