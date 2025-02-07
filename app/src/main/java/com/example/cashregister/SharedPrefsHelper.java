@@ -55,7 +55,8 @@ public class SharedPrefsHelper {
 
     // Load product list from SharedPreferences
     public static ArrayList<Product> loadProductList(Context context) {
-        List<Product> productList = loadData(context, PRODUCT_LIST_KEY, new TypeToken<List<Product>>() {});
+        List<Product> productList = loadData(context, PRODUCT_LIST_KEY, new TypeToken<>() {
+        });
         if (productList.isEmpty()) {
             return createDefaultProductList();
         }
@@ -71,7 +72,8 @@ public class SharedPrefsHelper {
 
     // Load purchase history from SharedPreferences
     public static ArrayList<PurchaseHistory> loadPurchaseHistory(Context context) {
-        return new ArrayList<>(loadData(context, PURCHASE_HISTORY_KEY, new TypeToken<List<PurchaseHistory>>() {}));
+        return new ArrayList<>(loadData(context, PURCHASE_HISTORY_KEY, new TypeToken<>() {
+        }));
     }
 
     // Create a default product list

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.cashregister.R;
 import com.example.cashregister.model.Product;
 
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
     private final OnProductClickListener listener;
-    private final List<Product> productList; // Make this mutable
+    private final List<Product> productList;
 
     public ProductAdapter(Context context, List<Product> productList, OnProductClickListener listener) {
         super(context, 0, productList);
@@ -22,8 +24,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
 
         // Check if the recycled view (convertView) is null

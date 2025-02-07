@@ -9,7 +9,7 @@
         android:id="@+id/productName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Name"
+        android:text="@string/product_name"
         android:textStyle="bold"
         android:textSize="18sp" />
 
@@ -17,12 +17,12 @@
         android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quantity" />
+        android:text="@string/qty" />
 
     <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Price" />
+        android:text="@string/price" />
 
 </LinearLayout>

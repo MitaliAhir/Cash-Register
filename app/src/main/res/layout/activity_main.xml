@@ -10,12 +10,13 @@
 
     <Button
         android:id="@+id/btnManager"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:text="Manager"
-        android:textColor="@color/magenta"
+        android:text="@string/manager"
+        android:textColor="#9C27B0"
         android:textSize="18sp"
+        app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:hint="Product Type"
+        android:hint="@string/product_type"
+        android:textColorHint="#546E7A"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Quantity: 0"
+        android:hint="@string/quantity_placeholder"
+        android:textColorHint="#546E7A"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/product_name" />
@@ -47,7 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="end"
-        android:hint="Total: $0.00"
+        android:hint="@string/total_placeholder"
+        android:textColorHint="#546E7A"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/product_name" />
@@ -65,96 +69,92 @@
 
         <Button
             android:id="@+id/btn1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text="@string/number_1"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2"
+            android:text="@string/number_2"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="@string/number_3"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn4"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4"
+            android:text="@string/number_4"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5"
+            android:text="@string/number_5"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn6"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6"
+            android:text="@string/number_6"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1" />
+            app:layout_rowWeight="1"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
             android:id="@+id/btn7"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7"
+            android:text="@string/number_7"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn8"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8"
+            android:text="@string/number_8"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn9"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9"
+            android:text="@string/number_9"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btnC"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="C"
+            android:text="@string/clear"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btn0"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/number_0"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"/>
 
     </androidx.gridlayout.widget.GridLayout>
 
@@ -163,9 +163,10 @@
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintWidth_max="320dp"
         android:layout_marginTop="30dp"
         android:paddingHorizontal="50dp"
-        android:text="Buy"
+        android:text="@string/buy"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,6 +177,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
